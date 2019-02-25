@@ -1,0 +1,171 @@
+# BP name : NSWPS-<domain_name>-<solution_name>-<product_release>
+config:
+  name: <solution_name>
+  product_release: 19.7
+  description: Blueprint for CBIS-Deployment solution
+  email: mayur@nokia.com
+  domain: cloud
+  product_hierarchy:
+  services_BL_hierarchy:
+  blueprint_wiki:
+project_info:
+  name:
+  auth_users:
+  sharepoint_links:
+  customer:
+  market:
+alm:
+  tool: jira
+  project:
+    guideline: project_name, project_type and project_lead mandatory
+    project_name: nokia
+    project_type: software
+    project_lead: Mayur
+    version:
+      guideline: add min of 1 and max of 3 versions
+      versions:
+        - description: Expected stable version
+          name: 19.7
+          archived: false
+          released: false
+          releaseDate: 2019-07-06
+          userReleaseDate: 6/Jul/2019
+    component:
+      guideline: Installer component added. add max of 2 additional components
+      components:
+        - name: Reporting
+          leadUserName: Lead
+          assigneeType: ProjectLead
+          isAssigneeTypeValid: true
+    label:
+      guideline: PU label added. add max of 3 additional labels
+      labels:
+        - name: CBS
+    backlog:
+      type_id: #DEP
+      namespace_id: #CDP
+      issue:
+        - type: epic
+          id: #epic id
+          summary: #Dependencies
+          description:
+          efforts:
+          assignee: #TPM
+          content:
+            - type: story
+              id: #story id
+              summary: #Project  Management Dependencies
+              description:
+              efforts:
+              assignee: #TPM
+              delivery_org: #GDC
+              content:
+                - type: subtask
+                  id: # subtask id
+                  summary: #Depedency 1
+                  description:
+                  in_scope: #Yes/No
+                  efforts: #2
+                  assignee: #TPM
+                  location: #onsite/remote
+                  automated: #Yes/No
+                - type: subtask
+                  id: # subtask id
+                  summary: #Depedency 2
+                  description:
+                  in_scope: #Yes/No
+                  efforts: #2
+                  assignee: #TPM
+                  location: #onsite/remote
+                  automated: #Yes/No
+scm:
+  tool: gerrit
+  repository:
+    guideline: repo_name and base_code mandatory
+    repo_name: sample
+    base_code: https://gerrit.nokia.com/base_code.git
+    branches:
+      startPoint: refs/heads
+      branch:
+        - dev
+        - prod
+    groups:
+      - name: Developers
+        users:
+          - abc@nokia.com
+          - def@nokia.com
+          - ghi@nokia.com
+      - name: Read-Onlys
+        users:
+          - jkl@nokia.com
+          - mno@nokia.com
+          - pqr@nokia.com
+      - name: Config-Mgmt
+        users:
+          - stu@nokia.com
+          - vwx@nokia.com
+          - yza@nokia.com
+      - name: Reviewers
+        users:
+          - bcd@nokia.com
+          - ef@nokia.com
+    references:
+      - reference: refs/*
+        owner:
+          - Config-Mgmt
+        read:
+          - Read-Onlys
+      - reference: refs/for/*
+        read:
+          - Config-Mgmt
+        push:
+          - Config-Mgmt
+      - reference: refs/for/refs/*
+        push:
+          - Developers
+        push_merge_commit:
+          - Developers
+      - reference: refs/heads/*
+        read:
+          - Config-Mgmt
+        push:
+          - Config-Mgmt
+        label_code_review:
+          - Developers
+        label_verified:
+          - AADO-Jenkins
+      - reference: refs/meta/config
+        read:
+          - Developers
+ci:
+  tool: jenkins
+  job:
+    guideline: min 2 jobs have to be created and job_name, config_file, file_path and branch are mandatory
+    jobs:
+      - job_name: sample
+        config_file: https://gerrit.nokia.com/base_code.git
+        file_path: src/Jenkinsfile
+        branch: master
+      - job_name: _nb
+        config_file: https://gerrit.nokia.com/base_code.git
+        file_path: src/Jenkinsfile_nb
+        trigger: 29 18 * * *
+        branch: master
+brm:
+  tool: jfrog
+  repository:
+    guideline: repository_name, repository_type, repository_rClass and folder are mandatory
+    repository_name: sample
+    repository_type: maven
+    repository_rClass: remote
+    folder:
+      - name: candidates
+ide:
+  tool: eclipse_che
+  workspaces:
+  guideline: min of 1 project has to be added and name, type are mandatory
+  description: Eclipse che workspace created by ACE
+  projects:
+    - name: sample
+      type: node
+      description: A project for nodejs environment
