@@ -1,0 +1,215 @@
+config:
+  name: #Solution Blueprint name
+  product_release:
+  description:
+  email: #Contact person for blueprint
+  domain:
+  product_hierarchy:
+  services_BL_hierarchy:
+  blueprint_wiki:
+project_info:
+  name:
+  auth_users:
+  sharepoint_links:
+  customer:
+  market:
+alm:
+  tool: jira
+  project:
+    validator:
+      - node_name:
+          - project_name
+          - project_type
+          - project_lead
+        mandatory: true
+    guideline: project_name, project_type and project_lead mandatory
+    project_name:
+    project_type:
+    project_lead:
+    version:
+      validator:
+        - node_name:
+            - versions
+          mandatory: true
+          min: 1
+          max: 3
+      guideline: add min of 1 and max of 3 versions
+      versions:
+        - description: #An excellent version
+          name: 19.7
+          archived: false
+          released: false
+          releaseDate: 2019-07-06
+          userReleaseDate: 6/Jul/2019
+    component:
+      validator:
+        - node_name:
+            - components
+          mandatory: true
+          min: 1
+          max: 3
+      guideline: Installer component added . add max of 2 additional components
+      components:
+        - name: Installer
+          leadUserName: Lead
+          assigneeType: ProjectLead
+          isAssigneeTypeValid: true
+          immutable: true
+        - name: Reporting8
+          leadUserName: Lead
+          assigneeType: ProjectLead
+          isAssigneeTypeValid: true
+    label:
+      validator:
+        - node_name:
+            - labels
+          mandatory: true
+          min: 1
+          max: 4
+      guideline: PU label added . add max of 3 additional labels
+      labels:
+        - name: PU
+          immutable: true
+        - name: CBS
+    backlog:
+      type_id: #DEP
+      namespace_id: #CDP
+      issue:
+        - type: epic
+          id: #epic id
+          summary: #Dependencies
+          description:
+          efforts:
+          assignee: #TPM
+          content:
+            - type: story
+              id: #story id
+              summary: #Project  Management Dependencies
+              description:
+              efforts:
+              assignee: #TPM
+              delivery_org: #GDC
+              content:
+                - type: subtask
+                  id: # subtask id
+                  summary: #Depedency 1
+                  description:
+                  in_scope: #Yes/No
+                  efforts: #2
+                  assignee: #TPM
+                  location: #onsite/remote
+                  automated: #Yes/No
+                - type: subtask
+                  id: # subtask id
+                  summary: #Depedency 2
+                  description:
+                  in_scope: #Yes/No
+                  efforts: #2
+                  assignee: #TPM
+                  location: #onsite/remote
+                  automated: #Yes/No
+scm:
+  tool: gerrit
+  repository:
+    validator:
+      - node_name:
+          - repo_name
+          - base_code
+        mandatory: true
+    guideline: repo_name and base_code mandatory
+    repo_name:
+    base_code: #repo_link
+    branches:
+      startPoint: refs/heads
+      branch:
+        -  #dev
+        -  #prod
+    groups:
+      - name: Developers
+        users:
+          -  #abc@nokia.com
+          -  #def@nokia.com
+          -  #ghi@nokia.com
+      - name: Read-Onlys
+        users:
+      - name: Config-Mgmt
+        users:
+      - name: Reviewers
+        users:
+    references:
+      - reference: #refs/*
+        owner:
+          -  #Config-Mgmt
+        read:
+          -  #Read-Onlys
+        push:
+          -  #Config-Mgmt
+        push_merge_commit:
+          -  #Developers
+        label_code_review:
+          -  #Developers
+        label_verified:
+          -  #AADO-Jenkins
+ci:
+  tool: jenkins
+  job:
+    validator:
+      - node_name:
+          - jobs
+        min: 2
+        max: 4
+      - node_name:
+          - jobs/job_name
+          - jobs/config_file
+          - jobs/file_path
+          - jobs/branch
+        mandatory: true
+    guideline: min 2 jobs have to be created and job_name, config_file, file_path and branch are mandatory
+    jobs:
+      - job_name:
+        config_file: #repolink(where jenkinsfile is pushed)
+        file_path: #src/Jenkinsfile
+        branch: #master
+      - job_name: #_nb
+        config_file:
+        file_path:
+        trigger: #29 18 * * *
+        branch:
+brm:
+  tool: jfrog
+  repository:
+    validator:
+      - node_name:
+          - repository_name
+          - repository_type
+          - repository_rClass
+          - folder
+        mandatory: true
+    guideline: repository_name, repository_type, repository_rClass and folder are mandatory
+    repository_name: #sample
+    repository_type: #maven
+    repository_rClass: #remote
+    folder:
+      - name: inprogress
+        immutable: true
+      - name: snapshots
+        immutable: true
+      - name: candidates
+ide:
+  tool: eclipse_che
+  workspaces:
+  validator:
+    - node_name:
+        - projects
+      min: 1
+      max: 2
+    - node_name:
+        - projects/name
+        - projects/type
+      mandatory: true
+  guideline: min of 1 project has to be added and name, type are mandatory
+  description: #Eclipse che workspace created by ACE.
+  projects:
+    - name: sample
+      type: #node
+      description:
