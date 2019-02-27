@@ -11,7 +11,6 @@
     "project_info": {
         "name": "CBS.DEP.ABC",
         "auth_users": "abc@nokia.com, def@nokia.com",
-        "sharepoint_links": "http://sharepoint.com/abc",
         "customer": "IDEA",
         "market": "INDIA"
     },
